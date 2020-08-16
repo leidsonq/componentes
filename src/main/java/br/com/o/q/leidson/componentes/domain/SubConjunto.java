@@ -8,27 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Categoria implements Serializable{
+public class SubConjunto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
-	
-	@OneToMany (mappedBy = "categoria")
+	private String codigoD;
+
+	@ManyToMany(mappedBy = "subConjuntos")
 	private List<Componente> componentes = new ArrayList<>();
-	
-	public Categoria () {
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "CONJUNTO_SUB_CONJUNTO", joinColumns = @JoinColumn(name = "sub_conjunto_id"), inverseJoinColumns = @JoinColumn(name = "conjunto_id"))
+	private List<Conjunto> conjuntos = new ArrayList<>();
+
+	public SubConjunto() {
+
 	}
 
-	public Categoria(Integer id, String descricao) {
+	public SubConjunto(Integer id, String descricao, String codigoD) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
+		this.codigoD = codigoD;
 	}
 
 	public Integer getId() {
@@ -47,13 +59,28 @@ public class Categoria implements Serializable{
 		this.descricao = descricao;
 	}
 
-	
+	public String getCodigoD() {
+		return codigoD;
+	}
+
+	public void setCodigoD(String codigoD) {
+		this.codigoD = codigoD;
+	}
+
 	public List<Componente> getComponentes() {
 		return componentes;
 	}
 
 	public void setComponentes(List<Componente> componentes) {
 		this.componentes = componentes;
+	}
+
+	public List<Conjunto> getConjuntos() {
+		return conjuntos;
+	}
+
+	public void setConjuntos(List<Conjunto> conjuntos) {
+		this.conjuntos = conjuntos;
 	}
 
 	@Override
@@ -72,7 +99,7 @@ public class Categoria implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		SubConjunto other = (SubConjunto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -80,7 +107,5 @@ public class Categoria implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 
 }

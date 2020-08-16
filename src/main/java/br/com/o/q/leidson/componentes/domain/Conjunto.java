@@ -13,18 +13,21 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Conjunto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
 	private String codigoD;
-	
-	@ManyToMany (mappedBy = "conjuntos")
+
+	@ManyToMany(mappedBy = "conjuntos")
 	private List<Componente> componentes = new ArrayList<>();
-	
+
+	@ManyToMany(mappedBy = "conjuntos")
+	private List<SubConjunto> subConjunto = new ArrayList<>();
+
 	public Conjunto() {
-	
+
 	}
 
 	public Conjunto(Integer id, String descricao, String codigoD) {
@@ -66,6 +69,14 @@ public class Conjunto implements Serializable {
 		this.componentes = componentes;
 	}
 
+	public List<SubConjunto> getSubConjunto() {
+		return subConjunto;
+	}
+
+	public void setSubConjunto(List<SubConjunto> subConjunto) {
+		this.subConjunto = subConjunto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,6 +101,5 @@ public class Conjunto implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
 }

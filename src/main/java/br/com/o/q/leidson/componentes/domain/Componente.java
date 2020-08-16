@@ -28,16 +28,21 @@ public class Componente implements Serializable {
 	private String descricaoSemAcento;
 	private String status;
 	private String alocacao;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
-	
-	
+
+	@JsonIgnore
 	@ManyToMany
-	@JoinTable (name="COMPONENTE_CONJUNTO", joinColumns = @JoinColumn(name="componente_id"), inverseJoinColumns = @JoinColumn(name="conjunto_id"))
-	private List<Conjunto> conjuntos = new ArrayList<>(); 
+	@JoinTable(name = "COMPONENTE_CONJUNTO", joinColumns = @JoinColumn(name = "componente_id"), inverseJoinColumns = @JoinColumn(name = "conjunto_id"))
+	private List<Conjunto> conjuntos = new ArrayList<>();
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "COMPONENTE_SUB_CONJUNTO", joinColumns = @JoinColumn(name = "componente_id"), inverseJoinColumns = @JoinColumn(name = "sub_conjunto_id"))
+	private List<SubConjunto> subConjuntos = new ArrayList<>();
 
 	public Componente() {
 
@@ -119,8 +124,6 @@ public class Componente implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
-	
 
 	public List<Conjunto> getConjuntos() {
 		return conjuntos;
@@ -128,6 +131,14 @@ public class Componente implements Serializable {
 
 	public void setConjuntos(List<Conjunto> conjuntos) {
 		this.conjuntos = conjuntos;
+	}
+
+	public List<SubConjunto> getSubConjuntos() {
+		return subConjuntos;
+	}
+
+	public void setSubConjuntos(List<SubConjunto> subConjuntos) {
+		this.subConjuntos = subConjuntos;
 	}
 
 	@Override

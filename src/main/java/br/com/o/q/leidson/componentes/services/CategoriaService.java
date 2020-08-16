@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.o.q.leidson.componentes.domain.Categoria;
 import br.com.o.q.leidson.componentes.repositories.CategoriaRepository;
-import javassist.tools.rmi.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
