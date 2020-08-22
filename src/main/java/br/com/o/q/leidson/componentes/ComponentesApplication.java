@@ -10,10 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.o.q.leidson.componentes.domain.Categoria;
 import br.com.o.q.leidson.componentes.domain.Componente;
 import br.com.o.q.leidson.componentes.domain.Conjunto;
+import br.com.o.q.leidson.componentes.domain.FabricanteModelo;
 import br.com.o.q.leidson.componentes.domain.SubConjunto;
 import br.com.o.q.leidson.componentes.repositories.CategoriaRepository;
 import br.com.o.q.leidson.componentes.repositories.ComponenteRepository;
 import br.com.o.q.leidson.componentes.repositories.ConjuntoRepository;
+import br.com.o.q.leidson.componentes.repositories.FabricanteModeloRepository;
 import br.com.o.q.leidson.componentes.repositories.SubConjuntoRepository;
 
 @SpringBootApplication
@@ -30,6 +32,9 @@ public class ComponentesApplication implements CommandLineRunner {
 
 	@Autowired
 	SubConjuntoRepository subConjuntoRepository;
+	
+	@Autowired
+	FabricanteModeloRepository fabricanteModeloRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ComponentesApplication.class, args);
@@ -57,18 +62,29 @@ public class ComponentesApplication implements CommandLineRunner {
 
 		conj1.getComponentes().addAll(Arrays.asList(comp1, comp2));
 		conj2.getComponentes().addAll(Arrays.asList(comp3));
+		conj3.getComponentes().addAll(Arrays.asList(comp2));
 		
 		SubConjunto subConj1 = new SubConjunto(null, "Fuso Árvore", "531.01.7006");
 		
 		subConj1.getConjuntos().addAll(Arrays.asList(conj3));
 		subConj1.getComponentes().addAll(Arrays.asList(comp4));
 		conj3.getSubConjunto().addAll(Arrays.asList(subConj1));
-
+		
+		FabricanteModelo fabMod1 = new FabricanteModelo(null, "HELLER", "MCI28.1",null);
+		
+		fabMod1.getConjuntos().addAll(Arrays.asList(conj1, conj2, conj3));
+		
+		conj1.setFabricanteModelo(fabMod1);
+		conj2.setFabricanteModelo(fabMod1);
+		conj3.setFabricanteModelo(fabMod1);
+		
+		fabricanteModeloRepository.saveAll(Arrays.asList(fabMod1));
 		conjuntoRepository.saveAll(Arrays.asList(conj1, conj2, conj3));
 		subConjuntoRepository.saveAll(Arrays.asList(subConj1));
 		
+		
 		comp1.getConjuntos().addAll(Arrays.asList(conj1));
-		comp2.getConjuntos().addAll(Arrays.asList(conj1));
+		comp2.getConjuntos().addAll(Arrays.asList(conj1, conj3));
 		comp3.getConjuntos().addAll(Arrays.asList(conj2));
 		comp4.getSubConjuntos().addAll(Arrays.asList(subConj1));
 

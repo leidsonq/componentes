@@ -8,7 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Conjunto implements Serializable {
@@ -25,6 +29,11 @@ public class Conjunto implements Serializable {
 
 	@ManyToMany(mappedBy = "conjuntos")
 	private List<SubConjunto> subConjunto = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn (name="fabricanteModelo_id")
+	private FabricanteModelo fabricanteModelo;
 
 	public Conjunto() {
 
@@ -75,6 +84,16 @@ public class Conjunto implements Serializable {
 
 	public void setSubConjunto(List<SubConjunto> subConjunto) {
 		this.subConjunto = subConjunto;
+	}
+	
+	
+
+	public FabricanteModelo getFabricanteModelo() {
+		return fabricanteModelo;
+	}
+
+	public void setFabricanteModelo(FabricanteModelo fabricanteModelo) {
+		this.fabricanteModelo = fabricanteModelo;
 	}
 
 	@Override
