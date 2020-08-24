@@ -8,11 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class FabricanteModelo implements Serializable {
@@ -27,21 +23,15 @@ public class FabricanteModelo implements Serializable {
 	@OneToMany(mappedBy = "fabricanteModelo")
 	private List<Conjunto> conjuntos = new ArrayList<>();
 
-	@JsonIgnore
-	@OneToOne
-	@JoinColumn(name = "decomposicao_id")
-	private Decomposicao decomposicao;
-
 	public FabricanteModelo() {
 
 	}
 
-	public FabricanteModelo(Integer id, String fabricante, String modelo, Decomposicao decomposicao) {
+	public FabricanteModelo(Integer id, String fabricante, String modelo) {
 		super();
 		this.id = id;
 		this.fabricante = fabricante;
 		Modelo = modelo;
-		this.decomposicao = decomposicao;
 	}
 
 	public Integer getId() {
@@ -74,14 +64,6 @@ public class FabricanteModelo implements Serializable {
 
 	public void setConjuntos(List<Conjunto> conjuntos) {
 		this.conjuntos = conjuntos;
-	}
-
-	public Decomposicao getDecomposicao() {
-		return decomposicao;
-	}
-
-	public void setDecomposicao(Decomposicao decomposicao) {
-		this.decomposicao = decomposicao;
 	}
 
 	@Override

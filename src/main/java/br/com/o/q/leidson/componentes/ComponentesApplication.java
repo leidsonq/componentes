@@ -70,7 +70,7 @@ public class ComponentesApplication implements CommandLineRunner {
 		subConj1.getComponentes().addAll(Arrays.asList(comp4));
 		conj3.getSubConjunto().addAll(Arrays.asList(subConj1));
 		
-		FabricanteModelo fabMod1 = new FabricanteModelo(null, "HELLER", "MCI28.1",null);
+		FabricanteModelo fabMod1 = new FabricanteModelo(null, "HELLER", "MCI28.1");
 		
 		fabMod1.getConjuntos().addAll(Arrays.asList(conj1, conj2, conj3));
 		
