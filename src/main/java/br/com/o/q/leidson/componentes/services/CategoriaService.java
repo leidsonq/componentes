@@ -1,5 +1,6 @@
 package br.com.o.q.leidson.componentes.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		// chama o método find e lança uma exceção caso o id não existaf
+		//chama o método find e lança uma exceção caso o id não existaf
 		find(obj.getId());
 		return repo.save(obj);
 	}
-
+	
 	public void delete (Integer id) {
 		find(id);
 		try {
@@ -42,6 +43,10 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui componentes");
 			
 		}
+	}
+	
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 
 }
