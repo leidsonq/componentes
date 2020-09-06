@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.o.q.leidson.componentes.domain.Categoria;
+import br.com.o.q.leidson.componentes.dto.CategoriaDTO;
 import br.com.o.q.leidson.componentes.repositories.CategoriaRepository;
 import br.com.o.q.leidson.componentes.services.exceptions.DataIntegrityException;
 import br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException;
@@ -58,6 +59,10 @@ public class CategoriaService {
 				orderBy);
 		return repo.findAll(pageRequest);
 		
+	}
+	
+	public Categoria fromDTO (CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getDescricao());
 	}
 
 }

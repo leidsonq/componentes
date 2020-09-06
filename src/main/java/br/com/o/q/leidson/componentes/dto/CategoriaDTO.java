@@ -2,12 +2,19 @@ package br.com.o.q.leidson.componentes.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.o.q.leidson.componentes.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
+	
+	@NotEmpty (message = "O campo descrição não pode ser vazio!")
+	@Length (min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres!")
 	private String descricao;
 	
 	public CategoriaDTO () {
