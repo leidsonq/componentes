@@ -34,9 +34,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		//chama o método find e lança uma exceção caso o id não existaf
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData (newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	public void delete (Integer id) {
@@ -63,6 +63,10 @@ public class CategoriaService {
 	
 	public Categoria fromDTO (CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getDescricao());
+	}
+	
+	private void updateData (Categoria newObj, Categoria obj) {
+		newObj.setDescricao (obj.getDescricao());
 	}
 
 }
