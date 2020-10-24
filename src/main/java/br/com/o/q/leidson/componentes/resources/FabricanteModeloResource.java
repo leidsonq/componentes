@@ -11,7 +11,7 @@ import br.com.o.q.leidson.componentes.domain.FabricanteModelo;
 import br.com.o.q.leidson.componentes.services.FabricanteModeloService;
 
 @RestController
-@RequestMapping (value="/fabricanteModelos")
+@RequestMapping (value="/modelos")
 public class FabricanteModeloResource {
 	
 	@Autowired

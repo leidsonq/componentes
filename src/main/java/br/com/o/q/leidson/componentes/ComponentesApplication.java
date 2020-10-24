@@ -43,8 +43,8 @@ public class ComponentesApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Categoria cat1 = new Categoria(null, "Elétrico");
-		Categoria cat2 = new Categoria(null, "Mecânico");
+		Categoria cat1 = new Categoria(null, "ELÉTRICO");
+		Categoria cat2 = new Categoria(null, "MECÂNICO");
 
 		Componente comp1 = new Componente(null, "FUSO ESFÉRICO EIXO X", null, null, null, null, null, cat2);
 		Componente comp2 = new Componente(null, "SERVOMOTOR FANUC A06B-0269-B400", null, null, null, null, null, cat1);
@@ -56,15 +56,15 @@ public class ComponentesApplication implements CommandLineRunner {
 
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 
-		Conjunto conj1 = new Conjunto(null, "Eixo X", null);
-		Conjunto conj2 = new Conjunto(null, "Magazine de Ferramentas", null);
-		Conjunto conj3 = new Conjunto(null, "Eixo Árvore", null);
+		Conjunto conj1 = new Conjunto(null, "EIXO X", null);
+		Conjunto conj2 = new Conjunto(null, "MAGAZINE DE FERRAMENTAS", null);
+		Conjunto conj3 = new Conjunto(null, "EIXO ÁRVORE", null);
 
 		conj1.getComponentes().addAll(Arrays.asList(comp1, comp2));
 		conj2.getComponentes().addAll(Arrays.asList(comp3));
 		conj3.getComponentes().addAll(Arrays.asList(comp2));
 		
-		SubConjunto subConj1 = new SubConjunto(null, "Fuso Árvore", "531.01.7006");
+		SubConjunto subConj1 = new SubConjunto(null, "FUSO ÁRVORE", "531.01.7006");
 		
 		subConj1.getConjuntos().addAll(Arrays.asList(conj3));
 		subConj1.getComponentes().addAll(Arrays.asList(comp4));

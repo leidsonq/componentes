@@ -18,7 +18,7 @@ public class FabricanteModelo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String fabricante;
-	private String Modelo;
+	private String modelo;
 
 	@OneToMany(mappedBy = "fabricanteModelo")
 	private List<Conjunto> conjuntos = new ArrayList<>();
@@ -31,7 +31,7 @@ public class FabricanteModelo implements Serializable {
 		super();
 		this.id = id;
 		this.fabricante = fabricante;
-		Modelo = modelo;
+		this.modelo = modelo;
 	}
 
 	public Integer getId() {
@@ -51,11 +51,11 @@ public class FabricanteModelo implements Serializable {
 	}
 
 	public String getModelo() {
-		return Modelo;
+		return modelo;
 	}
 
 	public void setModelo(String modelo) {
-		Modelo = modelo;
+		this.modelo = modelo;
 	}
 
 	public List<Conjunto> getConjuntos() {
