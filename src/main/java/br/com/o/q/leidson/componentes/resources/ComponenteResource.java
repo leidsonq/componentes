@@ -2,10 +2,7 @@ package br.com.o.q.leidson.componentes.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import br.com.o.q.leidson.componentes.domain.Componente;
 import br.com.o.q.leidson.componentes.dto.ComponenteDTO;
 import br.com.o.q.leidson.componentes.resources.util.URL;
@@ -60,22 +56,23 @@ public class ComponenteResource {
 
 	}
 
-	/*@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ComponenteDTO>> findAll() {
-		List<Componente> list = service.findAll();
-		List<ComponenteDTO> listDto = list.stream().map(obj -> new ComponenteDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+	/*
+	 * @RequestMapping(method = RequestMethod.GET) public
+	 * ResponseEntity<List<ComponenteDTO>> findAll() { List<Componente> list =
+	 * service.findAll(); List<ComponenteDTO> listDto = list.stream().map(obj -> new
+	 * ComponenteDTO(obj)).collect(Collectors.toList()); return
+	 * ResponseEntity.ok().body(listDto);
+	 * 
+	 * }
+	 */
 
-	}*/
-	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<ComponenteDTO>> findPage(
-			@RequestParam (value ="page", defaultValue = "0") Integer page,
-			@RequestParam (value ="descricao", defaultValue = "") String descricao,
-			@RequestParam (value ="categorias", defaultValue = "")String categorias,
-			@RequestParam (value ="linesPerPage", defaultValue = "24")Integer linesPerPage,
-			@RequestParam (value ="orderBy", defaultValue = "descricao")String orderBy,
-			@RequestParam (value ="direction", defaultValue = "ASC")String direction) {
+	public ResponseEntity<Page<ComponenteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "descricao", defaultValue = "") String descricao,
+			@RequestParam(value = "categorias", defaultValue = "") String categorias,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "descricao") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		List<Integer> ids = URL.decodeIntList(categorias);
 		String descricaoDecode = URL.decodeParam(descricao);
 		Page<Componente> list = service.search(descricaoDecode, ids, page, linesPerPage, orderBy, direction);
