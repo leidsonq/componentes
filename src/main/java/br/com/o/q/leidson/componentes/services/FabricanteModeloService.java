@@ -17,11 +17,21 @@ public class FabricanteModeloService {
 	
 	@Autowired
 	private FabricanteModeloRepository repo;
+	
+	@Autowired
+	EmailService emailService;
 
 	public FabricanteModelo find(Integer id) {
+		FabricanteModelo fabMod = new FabricanteModelo();
+		fabMod.setConjuntos(repo.findById(id).get().getConjuntos());
+		fabMod.setFabricante(repo.findById(id).get().getFabricante());
+		fabMod.setModelo(repo.findById(id).get().getModelo());
+		emailService.sendOrderConfirmationEmail(fabMod);
+		
 		Optional<FabricanteModelo> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException(
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + FabricanteModelo.class.getName()));
+		
 		}
 	
 	public FabricanteModelo insert(FabricanteModelo obj) {

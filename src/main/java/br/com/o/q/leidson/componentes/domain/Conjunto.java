@@ -121,4 +121,17 @@ public class Conjunto implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(codigoD);
+		builder.append("- ");
+		builder.append(descricao);	
+		for (Componente cp: getComponentes()) {
+			builder.append(cp.toString());
+		}
+		
+		return builder.toString();
+		
+	}
 }

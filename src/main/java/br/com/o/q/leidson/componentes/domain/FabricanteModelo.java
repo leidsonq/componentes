@@ -90,5 +90,14 @@ public class FabricanteModelo implements Serializable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (Conjunto cj: getConjuntos()) {
+			builder.append(cj.toString());
+		}
+		return builder.toString();
+	}
 
 }

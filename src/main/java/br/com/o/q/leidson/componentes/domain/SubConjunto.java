@@ -107,5 +107,14 @@ public class SubConjunto implements Serializable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(codigoD);
+		builder.append("- ");
+		builder.append(descricao);
+		return builder.toString();
+	}
 
 }
