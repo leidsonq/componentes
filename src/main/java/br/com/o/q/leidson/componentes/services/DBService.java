@@ -3,6 +3,7 @@ package br.com.o.q.leidson.componentes.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.o.q.leidson.componentes.domain.Categoria;
@@ -37,6 +38,9 @@ public class DBService {
 	
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	BCryptPasswordEncoder pe;
 
 	public void instantiateTestDatabase() {
 
@@ -86,7 +90,7 @@ public class DBService {
 
 		componenteRepository.saveAll(Arrays.asList(comp1, comp2, comp3, comp4));
 		
-		Usuario usu = new Usuario(null, "Leidson Quirino de Oliveira", "leidsonoliveira@yahoo.com.br");
+		Usuario usu = new Usuario(null, "Leidson Quirino de Oliveira", "leidsonoliveira@yahoo.com.br", pe.encode("123"));
 		usu.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 		usuarioRepository.saveAll(Arrays.asList(usu));
 

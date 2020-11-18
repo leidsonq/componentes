@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,21 +22,23 @@ public class Usuario implements Serializable {
 	private Integer id;
 	private String nome;
 	private String email;
+	@JsonIgnore
+	private String senha;
 
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
-	
 
 	public Usuario() {
 
 	}
 
-	public Usuario(Integer id, String nome, String email) {
+	public Usuario(Integer id, String nome, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -59,6 +63,14 @@ public class Usuario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public Set<String> getTelefones() {
