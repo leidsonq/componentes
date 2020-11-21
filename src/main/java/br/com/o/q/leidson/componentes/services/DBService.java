@@ -12,6 +12,7 @@ import br.com.o.q.leidson.componentes.domain.Conjunto;
 import br.com.o.q.leidson.componentes.domain.FabricanteModelo;
 import br.com.o.q.leidson.componentes.domain.SubConjunto;
 import br.com.o.q.leidson.componentes.domain.Usuario;
+import br.com.o.q.leidson.componentes.domain.enums.Perfil;
 import br.com.o.q.leidson.componentes.repositories.CategoriaRepository;
 import br.com.o.q.leidson.componentes.repositories.ComponenteRepository;
 import br.com.o.q.leidson.componentes.repositories.ConjuntoRepository;
@@ -92,7 +93,11 @@ public class DBService {
 		
 		Usuario usu = new Usuario(null, "Leidson Quirino de Oliveira", "leidsonoliveira@yahoo.com.br", pe.encode("123"));
 		usu.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
-		usuarioRepository.saveAll(Arrays.asList(usu));
+		
+		Usuario usu1 = new Usuario(null, "Michele Oliveira", "michele_gomes7l@hotmail.com", pe.encode("321"));
+		usu1.getTelefones().addAll(Arrays.asList("274343434", "98383934"));
+		usu1.addPerfil(Perfil.ADMIN);
+		usuarioRepository.saveAll(Arrays.asList(usu, usu1));
 
 	}
 

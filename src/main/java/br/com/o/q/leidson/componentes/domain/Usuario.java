@@ -3,15 +3,19 @@ package br.com.o.q.leidson.componentes.domain;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.o.q.leidson.componentes.domain.enums.Perfil;
 
 @Entity
 public class Usuario implements Serializable {
@@ -29,8 +33,12 @@ public class Usuario implements Serializable {
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
-	public Usuario() {
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
 
+	public Usuario() {
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Usuario(Integer id, String nome, String email, String senha) {
@@ -39,6 +47,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Integer getId() {
@@ -79,6 +88,14 @@ public class Usuario implements Serializable {
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
+	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	@Override
