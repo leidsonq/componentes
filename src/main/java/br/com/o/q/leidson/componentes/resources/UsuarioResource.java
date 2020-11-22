@@ -16,36 +16,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.o.q.leidson.componentes.domain.Conjunto;
-import br.com.o.q.leidson.componentes.dto.ConjuntoDTO;
-import br.com.o.q.leidson.componentes.services.ConjuntoService;
+import br.com.o.q.leidson.componentes.domain.Usuario;
+import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
+import br.com.o.q.leidson.componentes.services.UsuarioService;
 
 @RestController
-@RequestMapping(value = "/conjuntos")
-public class ConjuntoResource {
+@RequestMapping(value = "/usuarios")
+public class UsuarioResource {
 
 	@Autowired
-	ConjuntoService service;
+	UsuarioService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Conjunto obj = service.find(id);
+		Usuario obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ConjuntoDTO objDto) {
-		Conjunto obj = service.fromDTO(objDto);
+	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO objDto) {
+		Usuario obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody ConjuntoDTO objDto, @PathVariable Integer id) {
-		Conjunto obj = service.fromDTO(objDto);
+	public ResponseEntity<Void> update(@Valid @RequestBody UsuarioDTO objDto, @PathVariable Integer id) {
+		Usuario obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
@@ -60,10 +59,11 @@ public class ConjuntoResource {
 
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ConjuntoDTO>> findAll() {
-		List<Conjunto> list = service.findAll();
-		List<ConjuntoDTO> listDto = list.stream().map(obj -> new ConjuntoDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<UsuarioDTO>> findAll() {
+		List<Usuario> list = service.findAll();
+		List<UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 
 	}
