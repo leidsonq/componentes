@@ -8,8 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.o.q.leidson.componentes.domain.Usuario;
+import br.com.o.q.leidson.componentes.domain.enums.Perfil;
 import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
 import br.com.o.q.leidson.componentes.repositories.UsuarioRepository;
+import br.com.o.q.leidson.componentes.security.UserSS;
+import br.com.o.q.leidson.componentes.services.exceptions.AuthorizationException;
 
 @Service
 public class UsuarioService {
@@ -21,6 +24,12 @@ public class UsuarioService {
 	BCryptPasswordEncoder pe;
 
 	public Usuario find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Usuario> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
