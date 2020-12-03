@@ -1,11 +1,13 @@
 package br.com.o.q.leidson.componentes.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.o.q.leidson.componentes.domain.Usuario;
 import br.com.o.q.leidson.componentes.domain.enums.Perfil;
@@ -13,6 +15,7 @@ import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
 import br.com.o.q.leidson.componentes.repositories.UsuarioRepository;
 import br.com.o.q.leidson.componentes.security.UserSS;
 import br.com.o.q.leidson.componentes.services.exceptions.AuthorizationException;
+
 
 @Service
 public class UsuarioService {
@@ -22,6 +25,9 @@ public class UsuarioService {
 
 	@Autowired
 	BCryptPasswordEncoder pe;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	public Usuario find(Integer id) {
 		
@@ -75,6 +81,10 @@ public class UsuarioService {
 
 	private void updateData(Usuario newObj, Usuario obj) {
 		newObj.setNome(obj.getNome());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 }
