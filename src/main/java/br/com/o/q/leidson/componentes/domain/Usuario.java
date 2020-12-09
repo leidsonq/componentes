@@ -37,8 +37,6 @@ public class Usuario implements Serializable {
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 
-	private String imageUrl;
-
 	public Usuario() {
 		addPerfil(Perfil.CLIENTE);
 	}
@@ -90,14 +88,6 @@ public class Usuario implements Serializable {
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public Set<Perfil> getPerfis() {
