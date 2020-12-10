@@ -18,7 +18,6 @@ import br.com.o.q.leidson.componentes.repositories.UsuarioRepository;
 import br.com.o.q.leidson.componentes.security.UserSS;
 import br.com.o.q.leidson.componentes.services.exceptions.AuthorizationException;
 
-
 @Service
 public class UsuarioService {
 
@@ -27,23 +26,26 @@ public class UsuarioService {
 
 	@Autowired
 	BCryptPasswordEncoder pe;
-	
+
 	@Autowired
 	private S3Service s3Service;
-	
+
 	@Autowired
 	private ImageService imageService;
-	
+
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
 
+	@Value("${img.profile.size}")
+	private Integer size;
+
 	public Usuario find(Integer id) {
-		
+
 		UserSS user = UserService.authenticated();
-		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		
+
 		Optional<Usuario> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
@@ -90,7 +92,7 @@ public class UsuarioService {
 	private void updateData(Usuario newObj, Usuario obj) {
 		newObj.setNome(obj.getNome());
 	}
-	
+
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
 
 		UserSS user = UserService.authenticated();
@@ -99,6 +101,9 @@ public class UsuarioService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+
 		String fileName = prefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 
