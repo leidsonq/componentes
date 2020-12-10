@@ -8,16 +8,18 @@ public class ValidationError extends StandardError {
 
 	private List<FieldMessage> erros = new ArrayList<>();
 
-	public ValidationError(Integer status, String msg, Long timeStamp) {
-		super(status, msg, timeStamp);
+
+
+	public ValidationError(Long timestamp, Integer status, String msg, String message, String path) {
+		super(timestamp, status, msg, message, path);
 	}
 
 	public List<FieldMessage> getErros() {
 		return erros;
 	}
 
-	public void addError(String fieldDescricao, String message) {
-		erros.add(new FieldMessage(fieldDescricao, message));
+	public void addError(String fieldNome, String message) {
+		erros.add(new FieldMessage(fieldNome, message));
 	}
 
 }
