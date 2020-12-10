@@ -17,6 +17,7 @@ import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
 import br.com.o.q.leidson.componentes.repositories.UsuarioRepository;
 import br.com.o.q.leidson.componentes.security.UserSS;
 import br.com.o.q.leidson.componentes.services.exceptions.AuthorizationException;
+import br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -70,6 +71,20 @@ public class UsuarioService {
 
 	public List<Usuario> findAll() {
 		return repo.findAll();
+	}
+	
+	public Usuario findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Usuario obj = repo.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Usuario.class.getName());
+		}
+		return obj;
 	}
 
 	public Usuario fromDTO(UsuarioDTO objDto) {
