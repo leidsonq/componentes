@@ -57,7 +57,7 @@ public class ComponenteService {
 	}
 
 	public Componente fromDTO(ComponenteDTO objDto) {
-		return new Componente(objDto.getId(), objDto.getDescricao(), null, null, null, null, null, null);
+		return new Componente(objDto.getId(), objDto.getDescricao(), null, null, null, null, null, null, false);
 	}
 
 	private void updateData(Componente newObj, Componente obj) {

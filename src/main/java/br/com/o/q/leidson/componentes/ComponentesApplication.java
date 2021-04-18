@@ -9,6 +9,7 @@ public class ComponentesApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ComponentesApplication.class, args);
+		
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package br.com.o.q.leidson.componentes.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,9 +27,28 @@ public class FabricanteModeloResource {
 	FabricanteModeloService service;
 	
 	@RequestMapping (value="/{id}", method= RequestMethod.GET)
-	public ResponseEntity<?> find (@PathVariable Integer id) {
-		FabricanteModelo obj = service.find(id);
+	public ResponseEntity<?> find (@PathVariable String id) {
+		Integer idd = Integer.parseInt(id);
+		FabricanteModelo obj = service.find(idd);
 		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	//Envia a decomposicao do modelo indicado para o email recebido como parametro
+	@RequestMapping (value="/decomposicao", method= RequestMethod.GET)
+	public ResponseEntity<?> find (@RequestParam (value="id") String id, @RequestParam(value="email") String email) {
+		Integer idd = Integer.parseInt(id);
+		service.EnviarDecomposicao(idd, email);
+		return ResponseEntity.ok().body("Enviado com sucesso!");
+		
+	}
+	
+	//Envia a lista de pecas estrategicas do modelo indicado para o email recebido como parametro
+	@RequestMapping (value="/estrategica", method= RequestMethod.GET)
+	public ResponseEntity<?> findEstrategicas (@RequestParam (value="id") String id, @RequestParam(value="email") String email) {
+		Integer idd = Integer.parseInt(id);
+		service.EnviarEstrategicas(idd, email);
+		return ResponseEntity.ok().body("Enviado com sucesso!");
 		
 	}
 	
@@ -61,12 +79,12 @@ public class FabricanteModeloResource {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	/*@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<FabricanteModeloDTO>> findAll() {
 		List<FabricanteModelo> list = service.findAll();
 		List<FabricanteModeloDTO> listDto = list.stream().map(obj -> new FabricanteModeloDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 
-	}
+	}*/
 
 }

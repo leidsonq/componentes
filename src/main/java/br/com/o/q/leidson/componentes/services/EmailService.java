@@ -1,3 +1,4 @@
+
 package br.com.o.q.leidson.componentes.services;
 
 import org.springframework.mail.SimpleMailMessage;
@@ -12,5 +13,9 @@ public interface EmailService {
 	void sendEmail (SimpleMailMessage msg);
 	
 	void sendNewPasswordEmail(Usuario usuario, String newPass);
+	
+	void sendDecomposicao (FabricanteModelo obj, String email);
+	
+	void sendEstrategicas (StringBuilder assunto, StringBuilder estrategicas, String email);
 
 }

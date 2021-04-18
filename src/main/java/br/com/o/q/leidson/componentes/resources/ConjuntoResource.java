@@ -28,8 +28,9 @@ public class ConjuntoResource {
 	ConjuntoService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Conjunto obj = service.find(id);
+	public ResponseEntity<?> find(@PathVariable String id) {
+		Integer idd = Integer.parseInt(id);
+		Conjunto obj = service.find(idd);
 		return ResponseEntity.ok().body(obj);
 
 	}

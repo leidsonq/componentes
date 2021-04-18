@@ -28,8 +28,9 @@ public class SubConjuntoResource {
 	SubConjuntoService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		SubConjunto obj = service.find(id);
+	public ResponseEntity<?> find(@PathVariable String id) {
+		Integer idd = Integer.parseInt(id);
+		SubConjunto obj = service.find(idd);
 		return ResponseEntity.ok().body(obj);
 
 	}

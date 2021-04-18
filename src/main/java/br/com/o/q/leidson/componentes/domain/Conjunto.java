@@ -124,13 +124,23 @@ public class Conjunto implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(codigoD);
-		builder.append("- ");
-		builder.append(descricao);	
+		if (codigoD!=null) {
+			builder.append(codigoD);
+			builder.append("- ");
+		}	
+
+		builder.append(descricao);
+		builder.append("\n");
 		for (Componente cp: getComponentes()) {
+			builder.append("   ");
 			builder.append(cp.toString());
+			builder.append("\n");
 		}
-		
+		for (SubConjunto sub : getSubConjunto()) {
+			builder.append("   ");
+			builder.append(sub.toString());
+			builder.append("\n");
+		}
 		return builder.toString();
 		
 	}

@@ -1,4 +1,4 @@
-package br.com.o.q.leidson.componentes.services;
+ package br.com.o.q.leidson.componentes.services;
 
 import java.util.Date;
 
@@ -16,16 +16,36 @@ public abstract class AbstractEmailService implements EmailService {
 	
 	@Override
 	public void sendOrderConfirmationEmail (FabricanteModelo obj) {
-		SimpleMailMessage sm = prepareSimpleMailMessageFromFabricanteModelo (obj);
+
+	}
+	
+	public void sendDecomposicao (FabricanteModelo obj, String email) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromFabricanteModelo (obj, email);
+		sendEmail(sm);
+	}
+	
+	public void sendEstrategicas (StringBuilder assunto, StringBuilder estrategicas, String email) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromEstrategicas (assunto, estrategicas, email);
 		sendEmail(sm);
 	}
 
-	protected SimpleMailMessage prepareSimpleMailMessageFromFabricanteModelo(FabricanteModelo obj) {
+
+	protected SimpleMailMessage prepareSimpleMailMessageFromFabricanteModelo(FabricanteModelo obj, String email) {
 		SimpleMailMessage sm = new SimpleMailMessage();
-		sm.setTo("leidsonoliveira@yahoo.com.br");
+		sm.setTo(email);
 		sm.setFrom(sender);
 		sm.setSubject(obj.getFabricante()+"-"+obj.getModelo());
 		sm.setText(obj.toString());
+		return sm;
+	}
+	
+	
+	protected SimpleMailMessage prepareSimpleMailMessageFromEstrategicas(StringBuilder assunto, StringBuilder estrategicas, String email) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(email);
+		sm.setFrom(sender);
+		sm.setSubject(assunto.toString());
+		sm.setText(estrategicas.toString());
 		return sm;
 	}
 	
@@ -44,5 +64,5 @@ public abstract class AbstractEmailService implements EmailService {
 		sm.setText("Nova senha: " + newPass);
 		return sm;
 	}
-
+	
 }

@@ -111,9 +111,17 @@ public class SubConjunto implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(codigoD);
-		builder.append("- ");
+		if (codigoD!=null) {
+			builder.append(codigoD);
+			builder.append("- ");
+		}	
 		builder.append(descricao);
+		builder.append("\n");
+		for (Componente cp: getComponentes()) {
+			builder.append("      ");
+			builder.append(cp.toString());
+			builder.append("\n");
+		}
 		return builder.toString();
 	}
 

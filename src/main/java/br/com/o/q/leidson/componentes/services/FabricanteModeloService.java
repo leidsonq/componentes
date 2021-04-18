@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import br.com.o.q.leidson.componentes.domain.Componente;
+import br.com.o.q.leidson.componentes.domain.Conjunto;
 import br.com.o.q.leidson.componentes.domain.FabricanteModelo;
 import br.com.o.q.leidson.componentes.dto.FabricanteModeloDTO;
 import br.com.o.q.leidson.componentes.repositories.FabricanteModeloRepository;
@@ -26,7 +28,6 @@ public class FabricanteModeloService {
 		fabMod.setConjuntos(repo.findById(id).get().getConjuntos());
 		fabMod.setFabricante(repo.findById(id).get().getFabricante());
 		fabMod.setModelo(repo.findById(id).get().getModelo());
-		emailService.sendOrderConfirmationEmail(fabMod);
 		
 		Optional<FabricanteModelo> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException(
@@ -34,6 +35,37 @@ public class FabricanteModeloService {
 		
 		}
 	
+	public void EnviarDecomposicao (Integer FabModId, String email) {
+		FabricanteModelo fab = find(FabModId);
+		emailService.sendDecomposicao(fab, email);
+	}
+	
+	
+	public void EnviarEstrategicas (Integer FabModId, String email) {
+		FabricanteModelo fab = find(FabModId);
+		StringBuilder assunto = new StringBuilder();
+		StringBuilder estrategicas = new StringBuilder();
+		assunto.append("LISTA DE PEÇAS ESTRATÉGICAS: ");
+		assunto.append(fab.getFabricante());
+		assunto.append(" - ");
+		assunto.append(fab.getModelo());
+		
+		for (Conjunto conj: fab.getConjuntos()) {
+			System.out.println(conj.getComponentes());
+			for (Componente comp: conj.getComponentes()) {
+				if (comp.isEstrategico()) {
+					estrategicas.append(comp.getCodigoD());
+					estrategicas.append("- ");
+					estrategicas.append(comp.getDescricao());
+					estrategicas.append("\n");
+				}
+				
+			}
+		}
+		
+		emailService.sendEstrategicas(assunto, estrategicas, email);
+	}
+
 	public FabricanteModelo insert(FabricanteModelo obj) {
 		obj.setId(null);
 		return repo.save(obj);

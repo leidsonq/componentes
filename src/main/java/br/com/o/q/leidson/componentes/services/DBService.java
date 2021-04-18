@@ -48,10 +48,10 @@ public class DBService {
 		Categoria cat1 = new Categoria(null, "ELÉTRICO");
 		Categoria cat2 = new Categoria(null, "MECÂNICO");
 
-		Componente comp1 = new Componente(null, "FUSO ESFÉRICO EIXO X", null, null, null, null, null, cat2);
-		Componente comp2 = new Componente(null, "SERVOMOTOR FANUC A06B-0269-B400", null, null, null, null, null, cat1);
-		Componente comp3 = new Componente(null, "SERVOMOTOR SIEMENS", null, null, null, null, null, cat1);
-		Componente comp4 = new Componente(null, "ROLAMENTO DE CONTATO ANGULAR", null, null, null, null, null, cat2);
+		Componente comp1 = new Componente(null, "FUSO ESFÉRICO EIXO X", "531.01.3066", null, null, null, null, cat2, true);
+		Componente comp2 = new Componente(null, "SERVOMOTOR FANUC A06B-0269-B400", "531.02.3325", null, null, null, null, cat1, false);
+		Componente comp3 = new Componente(null, "SERVOMOTOR SIEMENS", "531.02.2575", null, null, null, null, cat1, true);
+		Componente comp4 = new Componente(null, "ROLAMENTO DE CONTATO ANGULAR", "531.01.5175", null, null, null, null, cat2, false);
 
 		cat1.getComponentes().addAll(Arrays.asList(comp2, comp3));
 		cat2.getComponentes().addAll(Arrays.asList(comp1));
@@ -61,33 +61,47 @@ public class DBService {
 		Conjunto conj1 = new Conjunto(null, "EIXO X", null);
 		Conjunto conj2 = new Conjunto(null, "MAGAZINE DE FERRAMENTAS", null);
 		Conjunto conj3 = new Conjunto(null, "EIXO ÁRVORE", null);
+		Conjunto conj4 = new Conjunto(null, "EIXO X", null);
+		Conjunto conj5 = new Conjunto(null, "EIXO Y", null);
 
 		conj1.getComponentes().addAll(Arrays.asList(comp1, comp2));
 		conj2.getComponentes().addAll(Arrays.asList(comp3));
 		conj3.getComponentes().addAll(Arrays.asList(comp2));
+		conj4.getComponentes().addAll(Arrays.asList(comp1, comp2));
+		conj5.getComponentes().addAll(Arrays.asList(comp1, comp2, comp3));
 
 		SubConjunto subConj1 = new SubConjunto(null, "FUSO ÁRVORE", "531.01.7006");
+		SubConjunto subConj2 = new SubConjunto(null, "ACIONAMENTO FANUC", "531.02.2323");
 
 		subConj1.getConjuntos().addAll(Arrays.asList(conj3));
 		subConj1.getComponentes().addAll(Arrays.asList(comp4));
 		conj3.getSubConjunto().addAll(Arrays.asList(subConj1));
+		
+		subConj2.getConjuntos().addAll(Arrays.asList(conj5));
+		subConj2.getComponentes().addAll(Arrays.asList(comp4, comp3));
+		conj5.getSubConjunto().addAll(Arrays.asList(subConj2));
 
 		FabricanteModelo fabMod1 = new FabricanteModelo(null, "HELLER", "MCI28.1");
+		FabricanteModelo fabMod2 = new FabricanteModelo(null, "HELLER", "MCI16.1");
 
-		fabMod1.getConjuntos().addAll(Arrays.asList(conj1, conj2, conj3));
+		fabMod1.getConjuntos().addAll(Arrays.asList(conj1, conj2, conj3, conj4, conj5));
+		fabMod2.getConjuntos().addAll(Arrays.asList(conj4, conj5));
 
 		conj1.setFabricanteModelo(fabMod1);
 		conj2.setFabricanteModelo(fabMod1);
 		conj3.setFabricanteModelo(fabMod1);
+		conj4.setFabricanteModelo(fabMod2);
+		conj5.setFabricanteModelo(fabMod2);
 
-		fabricanteModeloRepository.saveAll(Arrays.asList(fabMod1));
-		conjuntoRepository.saveAll(Arrays.asList(conj1, conj2, conj3));
-		subConjuntoRepository.saveAll(Arrays.asList(subConj1));
+		fabricanteModeloRepository.saveAll(Arrays.asList(fabMod1, fabMod2));
+		conjuntoRepository.saveAll(Arrays.asList(conj1, conj2, conj3, conj4, conj5));
+		subConjuntoRepository.saveAll(Arrays.asList(subConj1, subConj2));
 
-		comp1.getConjuntos().addAll(Arrays.asList(conj1));
-		comp2.getConjuntos().addAll(Arrays.asList(conj1, conj3));
-		comp3.getConjuntos().addAll(Arrays.asList(conj2));
-		comp4.getSubConjuntos().addAll(Arrays.asList(subConj1));
+		comp1.getConjuntos().addAll(Arrays.asList(conj1, conj4, conj5));
+		comp2.getConjuntos().addAll(Arrays.asList(conj1, conj3, conj4, conj5));
+		comp3.getConjuntos().addAll(Arrays.asList(conj2, conj5));
+		comp3.getSubConjuntos().addAll(Arrays.asList(subConj2));
+		comp4.getSubConjuntos().addAll(Arrays.asList(subConj1, subConj2));
 
 		componenteRepository.saveAll(Arrays.asList(comp1, comp2, comp3, comp4));
 		

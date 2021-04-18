@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.o.q.leidson.componentes.domain.Usuario;
 import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
+import br.com.o.q.leidson.componentes.dto.UsuarioNewDTO;
 import br.com.o.q.leidson.componentes.services.UsuarioService;
 
 @RestController
@@ -43,7 +44,7 @@ public class UsuarioResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDTO objDto) {
 		Usuario obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

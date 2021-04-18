@@ -28,6 +28,7 @@ public class Componente implements Serializable {
 	private String descricaoSemAcento;
 	private String status;
 	private String alocacao;
+	private boolean estrategico;
 
 	@JsonIgnore
 	@ManyToOne
@@ -49,7 +50,7 @@ public class Componente implements Serializable {
 	}
 
 	public Componente(Integer id, String descricao, String codigoD, String codComplementar, String descricaoSemAcento,
-			String status, String alocacao, Categoria categoria) {
+			String status, String alocacao, Categoria categoria, boolean estrategico) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
@@ -59,6 +60,7 @@ public class Componente implements Serializable {
 		this.status = status;
 		this.alocacao = alocacao;
 		this.categoria = categoria;
+		this.estrategico = estrategico;
 	}
 
 	public Integer getId() {
@@ -139,6 +141,14 @@ public class Componente implements Serializable {
 
 	public void setSubConjuntos(List<SubConjunto> subConjuntos) {
 		this.subConjuntos = subConjuntos;
+	}
+	
+	public boolean isEstrategico() {
+		return estrategico;
+	}
+
+	public void setEstrategico(boolean estrategico) {
+		this.estrategico = estrategico;
 	}
 
 	@Override

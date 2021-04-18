@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.o.q.leidson.componentes.domain.Usuario;
 import br.com.o.q.leidson.componentes.domain.enums.Perfil;
 import br.com.o.q.leidson.componentes.dto.UsuarioDTO;
+import br.com.o.q.leidson.componentes.dto.UsuarioNewDTO;
 import br.com.o.q.leidson.componentes.repositories.UsuarioRepository;
 import br.com.o.q.leidson.componentes.security.UserSS;
 import br.com.o.q.leidson.componentes.services.exceptions.AuthorizationException;
@@ -48,7 +49,7 @@ public class UsuarioService {
 		}
 
 		Optional<Usuario> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new br.com.o.q.leidson.componentes.services.exceptions.ObjectNotFoundException(
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
 	}
 
@@ -91,7 +92,7 @@ public class UsuarioService {
 		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), null);
 	}
 
-	public Usuario fromDTO(br.com.o.q.leidson.componentes.dto.UsuarioNewDTO objDto) {
+	public Usuario fromDTO(UsuarioNewDTO objDto) {
 		Usuario usu = new Usuario(null, objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
 		usu.getTelefones().add(objDto.getTelefone1());
 		if (objDto.getTelefone2() != null) {
